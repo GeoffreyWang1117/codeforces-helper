@@ -38,13 +38,16 @@
     "cp"
   ],
   "activationEvents": [
-    "onCommand:codeforces.downloadContest",
-    "onCommand:codeforces.downloadProblem",
-    "onCommand:codeforces.configureAPI"
+    "onStartupFinished"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
+      {
+        "command": "codeforces.showMenu",
+        "title": "Codeforces: Open Menu",
+        "icon": "$(cloud-download)"
+      },
       {
         "command": "codeforces.downloadContest",
         "title": "Codeforces: Download Contest"
@@ -60,6 +63,17 @@
       {
         "command": "codeforces.clearCredentials",
         "title": "Codeforces: Clear API Credentials"
+      },
+      {
+        "command": "codeforces.showHelp",
+        "title": "Codeforces: Help & Documentation"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "codeforces.showMenu",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c"
       }
     ],
     "configuration": {
@@ -108,7 +122,6 @@
     "type": "git",
     "url": "https://github.com/GeoffreyWang1117/codeforces-helper.git"
   },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/GeoffreyWang1117/codeforces-helper/issues"
   },
