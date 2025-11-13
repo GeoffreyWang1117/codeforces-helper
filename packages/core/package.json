@@ -1,0 +1,17 @@
+{
+  "name": "@cf-dl/core",
+  "version": "1.0.0",
+  "description": "Core functionality for Codeforces downloader",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=es2020 --outfile=dist/index.js --sourcemap",
+    "dev": "pnpm build --watch",
+    "test": "vitest"
+  },
+  "keywords": ["codeforces", "downloader", "competitive-programming"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "peerDependencies": {}
+}

@@ -1,0 +1,116 @@
+{
+  "name": "codeforces-downloader",
+  "displayName": "Codeforces Problem Downloader",
+  "description": "Download Codeforces problems as Markdown files. Privacy-first: all data stays local.",
+  "version": "1.0.0",
+  "publisher": "codeforces-dl",
+  "author": {
+    "name": "Codeforces Downloader Team"
+  },
+  "license": "MIT",
+  "preview": false,
+  "galleryBanner": {
+    "color": "#1E3A8A",
+    "theme": "dark"
+  },
+  "icon": "resources/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages",
+    "Snippets"
+  ],
+  "badges": [
+    {
+      "url": "https://img.shields.io/badge/Privacy-First-blue",
+      "description": "All data stays local - no telemetry",
+      "href": "https://github.com/your-username/codeforces-downloader#privacy"
+    }
+  ],
+  "qna": "marketplace",
+  "keywords": [
+    "codeforces",
+    "competitive-programming",
+    "problem-downloader",
+    "markdown",
+    "cp"
+  ],
+  "activationEvents": [
+    "onCommand:codeforces.downloadContest",
+    "onCommand:codeforces.downloadProblem",
+    "onCommand:codeforces.configureAPI"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codeforces.downloadContest",
+        "title": "Codeforces: Download Contest"
+      },
+      {
+        "command": "codeforces.downloadProblem",
+        "title": "Codeforces: Download Single Problem"
+      },
+      {
+        "command": "codeforces.configureAPI",
+        "title": "Codeforces: Configure API Credentials"
+      },
+      {
+        "command": "codeforces.clearCredentials",
+        "title": "Codeforces: Clear API Credentials"
+      }
+    ],
+    "configuration": {
+      "title": "Codeforces Downloader",
+      "properties": {
+        "codeforces.downloadPath": {
+          "type": "string",
+          "default": "",
+          "description": "Default path for downloading problems (leave empty to use workspace root)"
+        },
+        "codeforces.includeExamples": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include example test cases in downloaded files"
+        },
+        "codeforces.includeTags": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include problem tags (may contain spoilers)"
+        },
+        "codeforces.includeNotes": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include problem notes section"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --platform=node --target=node18 --external:vscode --outfile=dist/extension.js --sourcemap",
+    "dev": "pnpm build --watch",
+    "package": "vsce package --no-dependencies",
+    "publish": "vsce publish --no-dependencies",
+    "publish:ovsx": "ovsx publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "ovsx": "^0.8.3"
+  },
+  "dependencies": {
+    "@cf-dl/core": "workspace:*",
+    "linkedom": "^0.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/codeforces-downloader"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-username/codeforces-downloader/issues"
+  },
+  "homepage": "https://github.com/your-username/codeforces-downloader#readme"
+}

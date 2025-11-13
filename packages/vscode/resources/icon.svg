@@ -1,0 +1,49 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="128" height="128" rx="16" fill="#1E3A8A"/>
+
+  <!-- CF letters -->
+  <g fill="white">
+    <!-- C -->
+    <path d="M 35 40
+             Q 25 40 25 50
+             L 25 78
+             Q 25 88 35 88
+             L 45 88
+             Q 50 88 50 83
+             L 50 78
+             L 42 78
+             L 42 80
+             Q 42 82 40 82
+             L 35 82
+             Q 33 82 33 80
+             L 33 58
+             Q 33 56 35 56
+             L 40 56
+             Q 42 56 42 58
+             L 42 60
+             L 50 60
+             L 50 55
+             Q 50 50 45 50
+             L 35 50
+             Z" />
+
+    <!-- F -->
+    <path d="M 60 40
+             L 60 88
+             L 68 88
+             L 68 68
+             L 85 68
+             L 85 60
+             L 68 60
+             L 68 48
+             L 90 48
+             L 90 40
+             Z" />
+  </g>
+
+  <!-- Decorative code brackets -->
+  <g fill="#60A5FA" opacity="0.6">
+    <text x="12" y="110" font-family="monospace" font-size="20" font-weight="bold">&lt;/&gt;</text>
+  </g>
+</svg>

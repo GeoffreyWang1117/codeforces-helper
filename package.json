@@ -1,0 +1,38 @@
+{
+  "name": "codeforces-downloader",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Multi-platform Codeforces problem downloader",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/codeforces-downloader"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "build:core": "pnpm --filter @cf-dl/core build",
+    "build:vscode": "pnpm --filter @cf-dl/vscode build",
+    "build:browser": "pnpm --filter @cf-dl/browser build",
+    "build:obsidian": "pnpm --filter @cf-dl/obsidian build",
+    "dev:vscode": "pnpm --filter @cf-dl/vscode dev",
+    "dev:browser": "pnpm --filter @cf-dl/browser dev",
+    "dev:obsidian": "pnpm --filter @cf-dl/obsidian dev",
+    "package:vscode": "pnpm --filter @cf-dl/vscode package",
+    "package:browser": "pnpm --filter @cf-dl/browser package",
+    "package:obsidian": "pnpm --filter @cf-dl/obsidian package",
+    "test": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "esbuild": "^0.19.11",
+    "vitest": "^1.2.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
