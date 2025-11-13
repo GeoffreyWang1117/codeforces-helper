@@ -97,3 +97,134 @@ export interface ScraperResult {
   problem?: ProblemDetails;
   error?: string;
 }
+
+// ===== Alpha 0.1 新增类型 =====
+
+/**
+ * User information from Codeforces
+ */
+export interface User {
+  handle: string;
+  email?: string;
+  vkId?: string;
+  openId?: string;
+  firstName?: string;
+  lastName?: string;
+  country?: string;
+  city?: string;
+  organization?: string;
+  contribution: number;
+  rank?: string;
+  rating?: number;
+  maxRank?: string;
+  maxRating?: number;
+  lastOnlineTimeSeconds: number;
+  registrationTimeSeconds: number;
+  friendOfCount: number;
+  avatar: string;
+  titlePhoto: string;
+}
+
+/**
+ * Party (user or team) in a contest
+ */
+export interface Party {
+  contestId?: number;
+  members: Member[];
+  participantType: string;
+  teamId?: number;
+  teamName?: string;
+  ghost: boolean;
+  room?: number;
+  startTimeSeconds?: number;
+}
+
+export interface Member {
+  handle: string;
+  name?: string;
+}
+
+/**
+ * Submission information
+ */
+export interface Submission {
+  id: number;
+  contestId?: number;
+  creationTimeSeconds: number;
+  relativeTimeSeconds: number;
+  problem: Problem;
+  author: Party;
+  programmingLanguage: string;
+  verdict?: string;
+  testset: string;
+  passedTestCount: number;
+  timeConsumedMillis: number;
+  memoryConsumedBytes: number;
+}
+
+/**
+ * Rating change from a contest
+ */
+export interface RatingChange {
+  contestId: number;
+  contestName: string;
+  handle: string;
+  rank: number;
+  ratingUpdateTimeSeconds: number;
+  oldRating: number;
+  newRating: number;
+}
+
+/**
+ * Problemset response with statistics
+ */
+export interface ProblemsetResponse {
+  problems: Problem[];
+  problemStatistics: ProblemStatistic[];
+}
+
+export interface ProblemStatistic {
+  contestId?: number;
+  index: string;
+  solvedCount: number;
+}
+
+/**
+ * Options for filtering problems
+ */
+export interface FilterOptions {
+  minRating?: number;
+  maxRating?: number;
+  tags?: string[];
+  excludeTags?: string[];
+  minSolvedCount?: number;
+  maxSolvedCount?: number;
+}
+
+/**
+ * User statistics analysis
+ */
+export interface UserStatistics {
+  handle: string;
+  solvedCount: number;
+  attemptedCount: number;
+  acceptanceRate: number;
+  byRating: Record<number, number>;
+  byTags: Record<string, number>;
+  favoriteLanguage: string;
+  recentActivity: number; // submissions in last 30 days
+}
+
+/**
+ * Hack information
+ */
+export interface Hack {
+  id: number;
+  creationTimeSeconds: number;
+  hacker: Party;
+  defender: Party;
+  verdict?: string;
+  problem: Problem;
+  test?: string;
+  judgeProtocol?: any;
+}
