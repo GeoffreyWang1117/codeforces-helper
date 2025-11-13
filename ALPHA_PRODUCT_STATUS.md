@@ -1,6 +1,6 @@
 # Alpha 产品开发状态
 
-## 📊 当前进度：30%
+## 📊 当前进度：45%
 
 ### ✅ 已完成
 1. **产品规划** (PRODUCT_ROADMAP.md)
@@ -15,21 +15,28 @@
    - 公式语法验证
    - 完整的 Markdown 转换
 
+3. **Parser 集成完成** (scraper/parser.ts)
+   - ✅ 修改 `extractSection()` 使用 `getHTML()`
+   - ✅ 保留 HTML 结构和公式信息
+   - ✅ 导出新的转换函数
+
+4. **Markdown 转换器更新** (converter/markdown.ts)
+   - ✅ 集成 htmlToMarkdown 函数
+   - ✅ 所有内容部分使用新转换器
+   - ✅ 移除旧的 convertLatex 方法
+
+5. **测试验证**
+   - ✅ 创建测试脚本 (test-formula-mock.js)
+   - ✅ 验证 15 个公式正确解析
+   - ✅ 确认所有 7 种格式支持
+   - ✅ 无解析错误
+
 ### 🔧 进行中
-- 数学公式解析增强
+- 无（等待真实环境测试）
 
 ### ⏳ 待完成
 
 #### 高优先级（必须完成才能发布）
-1. **修改 scraper/parser.ts**
-   - 使用 `getHTML()` 保留 HTML 结构
-   - 集成新的 HTML 转换器
-   - 测试公式提取
-
-2. **更新 markdown.ts 转换器**
-   - 集成 html-to-markdown.ts
-   - 支持公式验证报告
-   - 添加转换选项
 
 3. **实现 PDF 题目下载**
    - 检测 PDF 题目
@@ -81,39 +88,30 @@
 
 ## 🎯 接下来的步骤
 
-### Step 1: 集成新转换器（今天完成）
+### ~~Step 1: 集成新转换器~~ ✅ 已完成 (2025-11-13)
 
-#### 修改 `scraper/parser.ts`
-```typescript
-// 修改 extractSection 方法使用 getHTML
-private extractSection(html: string, headerText: string): string | undefined {
-  const divClass = `.${headerText.toLowerCase().replace(/\s+/g, '-')}`;
-  const sectionDiv = this.parser.querySelector(html, divClass);
+**完成内容：**
+- ✅ 修改 `scraper/parser.ts` 使用 `getHTML()`
+- ✅ 更新 `converter/markdown.ts` 集成 `htmlToMarkdown()`
+- ✅ 导出所有必要的函数
+- ✅ 创建测试脚本并验证
+- ✅ 15 个公式全部正确解析
 
-  if (sectionDiv) {
-    // 使用 getHTML 而不是 getText
-    return this.parser.getHTML(sectionDiv).trim();
-  }
-
-  return undefined;
-}
+**测试结果：**
+```
+✅ 13 inline formulas ($...$)
+✅ 2 display formulas ($$...$$)
+✅ No parsing errors
+✅ All 7 Codeforces formula formats supported
 ```
 
-#### 更新 `converter/markdown.ts`
-```typescript
-import { htmlToMarkdown } from './html-to-markdown';
+**提交信息：**
+- Commit: cd95eac
+- 文件修改: 5 files
+- 新增测试: test-formula-mock.js
+- Branch: alpha-0.1
 
-private convertLatex(html: string): string {
-  // 使用新的转换器
-  return htmlToMarkdown(html, {
-    preserveLatex: true,
-    validateFormulas: true,
-    includeMathDelimiters: true
-  });
-}
-```
-
-### Step 2: 实现 PDF 下载（明天完成）
+### Step 2: 实现 PDF 下载（下一步）
 
 创建 `packages/core/src/downloader/pdf.ts`:
 ```typescript
@@ -298,15 +296,18 @@ cat test-results/report.md
 
 ## 🐛 已知问题
 
+### ~~已修复~~ ✅
+1. ~~parser.ts 使用 getText() 丢失 HTML 结构~~ → 已修改为 getHTML()
+2. ~~markdown.ts 转换器过于简单~~ → 已集成 htmlToMarkdown
+3. ~~没有公式验证机制~~ → html-to-markdown.ts 包含验证
+
 ### 待修复
-1. parser.ts 使用 getText() 丢失 HTML 结构
-2. markdown.ts 转换器过于简单
-3. 没有公式验证机制
-4. 缺少 PDF 下载功能
-5. 测试用例未保存为独立文件
+1. 缺少 PDF 下载功能
+2. 测试用例未保存为独立文件
+3. 需要真实环境测试（HTTP 403 问题）
 
 ### 风险评估
-- **高风险**: 公式解析（核心功能）
+- **高风险**: ~~公式解析（核心功能）~~ → ✅ 已解决
 - **中风险**: PDF 下载（部分题目）
 - **低风险**: 性能优化（可后续改进）
 
@@ -314,24 +315,41 @@ cat test-results/report.md
 
 ## 📞 下一步行动
 
-### 立即执行
-1. 提交当前代码（html-to-markdown.ts）
-2. 修改 parser.ts 使用新转换器
-3. 测试单个题目下载
-4. 验证公式解析正确性
+### ~~立即执行~~ ✅ 已完成
+1. ~~提交当前代码（html-to-markdown.ts）~~ ✅
+2. ~~修改 parser.ts 使用新转换器~~ ✅
+3. ~~测试单个题目下载~~ ✅（模拟测试）
+4. ~~验证公式解析正确性~~ ✅（15/15 通过）
 
-### 短期计划
-1. 实现 PDF 下载
-2. 实现测试用例保存
-3. 创建测试脚本框架
+### 下一步（短期）
+1. **实现 PDF 下载** - 优先级：高
+   - 检测 PDF 格式题目
+   - 下载原始 PDF 文件
+   - 集成到 VSCode 扩展
+
+2. **实现测试用例保存** - 优先级：高
+   - 提取示例输入输出
+   - 保存为 in*.txt 和 out*.txt
+   - 支持批量处理
+
+3. **创建批量测试脚本** - 优先级：中
+   - 选择 100 场代表性比赛
+   - 自动下载和验证框架
+   - 生成详细测试报告
+
+### 中期目标
+1. 真实环境测试（解决 HTTP 403）
+2. 完成 100 场比赛测试
+3. 性能优化和错误处理
 
 ### 长期目标
-1. 完成 100 场比赛测试
-2. 发布 Alpha 版本
+1. 发布 Alpha 1.0.0 版本
+2. 收集用户反馈
 3. 开始 Beta 版本规划
 
 ---
 
-生成时间: 2025-11-12
-当前分支: alpha-0.1
-目标: Alpha 1.0.0 Release
+**最后更新**: 2025-11-13
+**当前分支**: alpha-0.1
+**进度**: 45% → 目标 Alpha 1.0.0 Release
+**最新提交**: cd95eac (Formula parser integration)
