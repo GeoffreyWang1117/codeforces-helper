@@ -106,11 +106,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/codeforces-downloader"
+    "url": "https://github.com/GeoffreyWang1117/codeforces-helper.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/your-username/codeforces-downloader/issues"
+    "url": "https://github.com/GeoffreyWang1117/codeforces-helper/issues"
   },
-  "homepage": "https://github.com/your-username/codeforces-downloader#readme"
+  "homepage": "https://github.com/GeoffreyWang1117/codeforces-helper#readme"
 }

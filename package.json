@@ -5,7 +5,7 @@
   "description": "Multi-platform Codeforces problem downloader",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/codeforces-downloader"
+    "url": "https://github.com/GeoffreyWang1117/codeforces-helper.git"
   },
   "scripts": {
     "build": "pnpm -r build",
