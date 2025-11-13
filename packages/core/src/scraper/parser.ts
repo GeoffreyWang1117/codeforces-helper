@@ -124,6 +124,7 @@ export class ProblemScraper {
 
   /**
    * Extract a section by header text
+   * Now returns HTML to preserve LaTeX formulas
    */
   private extractSection(html: string, headerText: string): string | undefined {
     // This is a simplified implementation
@@ -134,7 +135,8 @@ export class ProblemScraper {
     const sectionDiv = this.parser.querySelector(html, divClass);
 
     if (sectionDiv) {
-      return this.parser.getText(sectionDiv).trim();
+      // Use getHTML() instead of getText() to preserve formulas and structure
+      return this.parser.getHTML(sectionDiv).trim();
     }
 
     return undefined;

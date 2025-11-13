@@ -46,5 +46,5 @@ export { ProblemScraper, fetchProblemHTML } from './scraper';
 export type { HTMLParserAdapter } from './scraper';
 
 // Converter
-export { MarkdownConverter, createMarkdownConverter } from './converter';
+export { MarkdownConverter, createMarkdownConverter, htmlToMarkdown, HTMLToMarkdownConverter } from './converter';
 export type { MarkdownTemplate } from './converter';

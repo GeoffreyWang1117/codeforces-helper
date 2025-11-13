@@ -6,6 +6,7 @@
  */
 
 import type { ProblemDetails } from '../types';
+import { htmlToMarkdown } from './html-to-markdown';
 
 export interface MarkdownTemplate {
   title: string;
@@ -41,20 +42,20 @@ export class MarkdownConverter {
 
     // Problem Statement
     sections.push(`## Problem Statement\n`);
-    sections.push(this.convertLatex(problem.statement));
+    sections.push(htmlToMarkdown(problem.statement));
     sections.push('');
 
     // Input Format
     if (problem.inputFormat) {
       sections.push(`## Input\n`);
-      sections.push(this.convertLatex(problem.inputFormat));
+      sections.push(htmlToMarkdown(problem.inputFormat));
       sections.push('');
     }
 
     // Output Format
     if (problem.outputFormat) {
       sections.push(`## Output\n`);
-      sections.push(this.convertLatex(problem.outputFormat));
+      sections.push(htmlToMarkdown(problem.outputFormat));
       sections.push('');
     }
 
@@ -66,7 +67,7 @@ export class MarkdownConverter {
     // Notes
     if (config.includeNotes && problem.notes) {
       sections.push(`## Notes\n`);
-      sections.push(this.convertLatex(problem.notes));
+      sections.push(htmlToMarkdown(problem.notes));
       sections.push('');
     }
 
