@@ -1,6 +1,6 @@
 # Alpha 产品开发状态
 
-## 📊 当前进度：45%
+## 📊 当前进度：75%
 
 ### ✅ 已完成
 1. **产品规划** (PRODUCT_ROADMAP.md)
@@ -31,32 +31,53 @@
    - ✅ 确认所有 7 种格式支持
    - ✅ 无解析错误
 
+6. **PDF 下载功能** (downloader/pdf.ts)
+   - ✅ PDF 格式检测
+   - ✅ 多种 PDF 链接模式识别
+   - ✅ PDF 文件下载和验证
+   - ✅ PDF magic number 验证
+
+7. **测试用例管理** (downloader/testcases.ts)
+   - ✅ 测试用例提取 (prepareTestCases)
+   - ✅ 文件格式化 (in*.txt, out*.txt)
+   - ✅ 测试用例验证 (validateTestCase)
+   - ✅ 测试运行器生成 (Bash/Python/Node.js)
+   - ✅ 元数据生成 (README.md)
+
+8. **VSCode 扩展增强**
+   - ✅ PDF 下载集成
+   - ✅ 测试用例自动保存
+   - ✅ 配置选项 (saveTestCases)
+   - ✅ 进度报告优化
+
+9. **批量测试框架** (tests/batch-test.ts)
+   - ✅ 100 场比赛选择策略
+   - ✅ 自动化测试流程
+   - ✅ 结果统计和分析
+   - ✅ 报告生成系统
+   - ✅ 增量结果保存
+
 ### 🔧 进行中
-- 无（等待真实环境测试）
+- 等待在真实环境运行批量测试
 
 ### ⏳ 待完成
 
 #### 高优先级（必须完成才能发布）
 
-3. **实现 PDF 题目下载**
-   - 检测 PDF 题目
-   - 下载原始 PDF 文件
-   - 保存到正确位置
+1. **运行批量测试**
+   - 在可访问 Codeforces 的环境运行 batch-test.ts
+   - 收集 100 场比赛的测试结果
+   - 分析成功率和问题
 
-4. **完善测试用例下载**
-   - 从示例中提取测试用例
-   - 保存为独立文件（in*.txt, out*.txt）
-   - 支持批量下载
+2. **修复发现的问题**
+   - 根据测试结果修复 bug
+   - 优化公式解析
+   - 改进错误处理
 
-5. **创建批量测试脚本**
-   - 选择 100 场代表性比赛
-   - 自动下载和验证
-   - 生成测试报告
-
-6. **公式验证和修复**
-   - 运行批量测试
-   - 修复发现的公式解析问题
-   - 确保 100% 正确率
+3. **达到发布标准**
+   - 95%+ 下载成功率
+   - 0 公式解析错误
+   - 完整的错误处理
 
 #### 中优先级（改进质量）
 1. **错误处理增强**
@@ -111,101 +132,96 @@
 - 新增测试: test-formula-mock.js
 - Branch: alpha-0.1
 
-### Step 2: 实现 PDF 下载（下一步）
+### ~~Step 2: 实现 PDF 下载~~ ✅ 已完成 (2025-11-13)
 
-创建 `packages/core/src/downloader/pdf.ts`:
+**完成内容：**
+- ✅ 创建 `downloader/pdf.ts` 模块
+- ✅ PDF 格式自动检测
+- ✅ PDF 文件下载和验证
+- ✅ 集成到 VSCode 扩展
+
+**功能特性：**
 ```typescript
-export async function downloadPDF(
-  contestId: number,
-  problemIndex: string,
-  savePath: string
-): Promise<boolean> {
-  const url = `https://codeforces.com/problemset/problem/${contestId}/${problemIndex}`;
-
-  // 检测是否为 PDF
-  const response = await fetch(url);
-  const html = await response.text();
-
-  const pdfMatch = html.match(/href="([^"]*\.pdf)"/);
-  if (pdfMatch) {
-    const pdfUrl = pdfMatch[1];
-    // 下载 PDF
-    const pdfResponse = await fetch(pdfUrl);
-    const buffer = await pdfResponse.arrayBuffer();
-    await fs.writeFile(savePath, Buffer.from(buffer));
-    return true;
-  }
-
-  return false;
-}
+- detectPDFProblem()  // 检测 PDF 格式
+- fetchPDFBuffer()    // 下载 PDF
+- downloadProblemWithPDF()  // 统一接口
 ```
 
-### Step 3: 测试用例保存（明天完成）
+### ~~Step 3: 实现测试用例保存~~ ✅ 已完成 (2025-11-13)
 
-创建 `packages/core/src/downloader/testcases.ts`:
-```typescript
-export async function saveTestCases(
-  examples: Example[],
-  problemPath: string
-): Promise<void> {
-  const testDir = path.join(problemPath, 'tests');
-  await fs.mkdir(testDir, { recursive: true });
+**完成内容：**
+- ✅ 创建 `downloader/testcases.ts` 模块
+- ✅ 测试用例提取和格式化
+- ✅ 自动生成测试运行器脚本
+- ✅ 集成到 VSCode 扩展
 
-  for (let i = 0; i < examples.length; i++) {
-    await fs.writeFile(
-      path.join(testDir, `in${i + 1}.txt`),
-      examples[i].input
-    );
-    await fs.writeFile(
-      path.join(testDir, `out${i + 1}.txt`),
-      examples[i].output
-    );
-  }
-}
+**功能特性：**
+```
+生成文件：
+- in1.txt, in2.txt, ...  (输入)
+- out1.txt, out2.txt, ... (输出)
+- test.sh                 (Bash 测试脚本)
+- README.md               (元数据)
 ```
 
-### Step 4: 批量测试脚本（2-3天完成）
+### ~~Step 4: 创建批量测试框架~~ ✅ 已完成 (2025-11-13)
 
-创建 `tests/batch-test.ts`:
-```typescript
-const CONTEST_IDS = [
-  // Regular rounds (25)
-  2000, 1999, 1998, ...,
+**完成内容：**
+- ✅ 创建 `tests/batch-test.ts`
+- ✅ 选择 100 场代表性比赛
+- ✅ 自动化测试流程
+- ✅ 详细报告生成
 
-  // Educational (25)
-  1900, 1899, 1898, ...,
-
-  // Mixed (25)
-  1800, 1799, 1798, ...,
-
-  // Special (25)
-  1700, 1699, 1698, ...
-];
-
-async function runBatchTest() {
-  const results = [];
-
-  for (const contestId of CONTEST_IDS) {
-    const result = await testContest(contestId);
-    results.push(result);
-
-    console.log(`✓ Contest ${contestId}: ${result.successRate}%`);
-  }
-
-  generateReport(results);
-}
+**覆盖范围：**
+```
+- 25 Regular rounds (2000-1976)
+- 25 Educational (1900-1876)
+- 25 Div mixed (1800-1776)
+- 25 Special/Global (1700-1676)
+= 100 contests, ~600+ problems
 ```
 
-### Step 5: 公式验证和修复（3-5天）
+**提交信息：**
+- Commit: f108e2d
+- 新增文件: 3 modules + 1 test script
+- Core 模块: 35.3kb (+44%)
+- VSCode 扩展: 461.8kb (+3%)
+- Branch: alpha-0.1
 
-运行测试，修复发现的问题：
+### Step 5: 运行批量测试（下一步）
+
+**注意：需要在可访问 Codeforces 的环境运行**
+
+运行命令：
 ```bash
-npm run test:batch
-# 查看报告
-cat test-results/report.md
-# 修复问题
-# 重新测试
+cd tests
+npm install linkedom  # 安装依赖
+node --loader ts-node/esm batch-test.ts
+
+# 或使用编译后的 JS
+tsc batch-test.ts --module esnext --target es2020
+node batch-test.js
 ```
+
+**预期输出**：
+- 实时进度显示
+- `test-results/report.md` - 测试报告
+- `test-results/results.json` - 详细数据
+- `test-results/partial-results.json` - 进度备份
+
+**成功标准**：
+- 95%+ 下载成功率
+- 0 公式解析错误
+- 所有 PDF 问题正确处理
+
+### Step 6: 修复问题并发布（最后一步）
+
+根据测试结果：
+1. 修复发现的 bug
+2. 优化性能
+3. 完善文档
+4. 打包 VSIX
+5. 创建 GitHub Release
 
 ---
 
@@ -351,5 +367,5 @@ cat test-results/report.md
 
 **最后更新**: 2025-11-13
 **当前分支**: alpha-0.1
-**进度**: 45% → 目标 Alpha 1.0.0 Release
-**最新提交**: cd95eac (Formula parser integration)
+**进度**: 75% → 目标 Alpha 1.0.0 Release
+**最新提交**: f108e2d (PDF + Test Cases + Batch Testing)
