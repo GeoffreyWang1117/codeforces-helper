@@ -98,6 +98,11 @@
           "type": "boolean",
           "default": true,
           "description": "Include problem notes section"
+        },
+        "codeforces.saveTestCases": {
+          "type": "boolean",
+          "default": true,
+          "description": "Save test cases as separate files (in*.txt, out*.txt)"
         }
       }
     }

@@ -19,6 +19,10 @@ import {
   createMarkdownConverter,
   ProblemScraper,
   fetchProblemHTML,
+  downloadProblemWithPDF,
+  prepareTestCases,
+  generateTestCaseMetadata,
+  generateTestRunnerScript,
 } from '@cf-dl/core';
 import { VSCodeSecureStorage, promptForCredentials, showAPIInstructions } from './storage';
 import { LinkedOMParserAdapter } from './parser-adapter';
@@ -386,6 +390,33 @@ async function downloadProblem() {
     },
     async (progress) => {
       try {
+        // Check if it's a PDF problem first
+        progress.report({ message: 'Checking problem format...' });
+        const pdfResult = await downloadProblemWithPDF(contestId, index);
+
+        if (pdfResult.isPDF) {
+          // Handle PDF problem
+          if (pdfResult.buffer && pdfResult.pdfUrl) {
+            progress.report({ message: 'Saving PDF file...' });
+            const pdfPath = path.join(saveFolder, `${contestId}-${index}.pdf`);
+            await fs.writeFile(pdfPath, Buffer.from(pdfResult.buffer));
+
+            vscode.window.showInformationMessage(
+              `PDF problem saved to ${pdfPath}`
+            );
+
+            // Open the PDF
+            await vscode.commands.executeCommand('vscode.open', vscode.Uri.file(pdfPath));
+            return;
+          } else {
+            vscode.window.showWarningMessage(
+              `Problem is in PDF format but could not be downloaded: ${pdfResult.error || 'Unknown error'}`
+            );
+            return;
+          }
+        }
+
+        // Regular HTML problem
         progress.report({ message: 'Fetching problem...' });
 
         const html = await fetchProblemHTML(contestId, index);
@@ -408,7 +439,47 @@ async function downloadProblem() {
         const filePath = path.join(saveFolder, `${contestId}-${index}.md`);
         await fs.writeFile(filePath, markdown, 'utf-8');
 
-        vscode.window.showInformationMessage(`Problem saved to ${filePath}`);
+        // Save test cases if enabled
+        const saveTestCases = config.get('saveTestCases', true);
+        if (saveTestCases && result.problem.examples.length > 0) {
+          progress.report({ message: 'Saving test cases...' });
+
+          // Create test cases directory
+          const testCasesDir = path.join(saveFolder, `${contestId}-${index}-tests`);
+          await fs.mkdir(testCasesDir, { recursive: true });
+
+          // Prepare and save test case files
+          const testCaseFiles = prepareTestCases(result.problem.examples);
+          for (const { filename, content } of testCaseFiles) {
+            await fs.writeFile(path.join(testCasesDir, filename), content, 'utf-8');
+          }
+
+          // Save metadata
+          const metadata = generateTestCaseMetadata(result.problem.examples);
+          await fs.writeFile(
+            path.join(testCasesDir, 'README.md'),
+            metadata,
+            'utf-8'
+          );
+
+          // Generate test runner script (bash by default)
+          const testScript = generateTestRunnerScript(result.problem.examples, 'bash');
+          const scriptPath = path.join(testCasesDir, 'test.sh');
+          await fs.writeFile(scriptPath, testScript, 'utf-8');
+
+          // Make script executable (Unix-like systems)
+          try {
+            await fs.chmod(scriptPath, 0o755);
+          } catch {
+            // Ignore on Windows
+          }
+
+          vscode.window.showInformationMessage(
+            `Problem and ${result.problem.examples.length} test cases saved!`
+          );
+        } else {
+          vscode.window.showInformationMessage(`Problem saved to ${filePath}`);
+        }
 
         // Open the file
         const document = await vscode.workspace.openTextDocument(filePath);

@@ -48,3 +48,23 @@ export type { HTMLParserAdapter } from './scraper';
 // Converter
 export { MarkdownConverter, createMarkdownConverter, htmlToMarkdown, HTMLToMarkdownConverter } from './converter';
 export type { MarkdownTemplate } from './converter';
+
+// Downloader
+export {
+  detectPDFProblem,
+  downloadPDF,
+  fetchPDFBuffer,
+  downloadProblemWithPDF,
+  formatTestCaseFilename,
+  prepareTestCases,
+  generateTestCaseMetadata,
+  validateTestCase,
+  validateAllTestCases,
+  generateTestRunnerScript,
+} from './downloader';
+export type {
+  PDFDetectionResult,
+  PDFDownloadResult,
+  TestCaseSaveResult,
+  TestCaseExporter,
+} from './downloader';
