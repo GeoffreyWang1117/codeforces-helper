@@ -62,3 +62,44 @@ contests/
 *.tmp
 *.bak
 *.log
+
+# 测试文件和中间过程文件
+test-*.js
+test-*.ts
+**/test-*.js
+**/test-*.ts
+
+# 测试结果目录
+test-results/
+**/test-results/
+
+# 开发过程文档（保留在本地）
+ANALYSIS.md
+ARCHITECTURE.md
+NEXT_STEPS.md
+COMPLETION_SUMMARY.md
+ALPHA_0.1_SUMMARY.md
+packages/core/API_ENHANCEMENT_PLAN.md
+
+# 已下载的题目文件
+*.md
+!README.md
+!CHANGELOG.md
+!LICENSE.md
+!CONTRIBUTING.md
+!CODE_OF_CONDUCT.md
+!PRODUCT_ROADMAP.md
+!ALPHA_PRODUCT_STATUS.md
+!packages/*/README.md
+!packages/*/CHANGELOG.md
+!packages/*/USER_GUIDE.md
+!packages/*/QUICKSTART.md
+!packages/*/PUBLISH.md
+!docs/**/*.md
+
+# 题目测试文件夹
+*-tests/
+in*.txt
+out*.txt
+test.sh
+test.py
